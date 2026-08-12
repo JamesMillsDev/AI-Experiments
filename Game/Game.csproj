@@ -9,8 +9,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Engine.AI\Engine.AI.csproj" />
-      <ProjectReference Include="..\Engine.Gameplay\Engine.Gameplay.csproj" />
-      <ProjectReference Include="..\Engine.Rendering\Engine.Rendering.csproj" />
+      <ProjectReference Include="..\Engine\Engine.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Content\shaderBall.fbx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,12 @@
-﻿namespace Game
+﻿using Engine.Core;
+
+namespace Game
 {
     internal static class Program
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Application.Run<AiGameInstance>(1080, 720, "AI Experiments");
         }
     }
 }

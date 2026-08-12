@@ -1,0 +1,67 @@
+﻿using Raylib_cs;
+
+namespace Engine.Core
+{
+    public class Window(int width, int height, string title)
+    {
+        public float Width
+        {
+            get => width;
+            set
+            {
+                width = (int)value;
+                Raylib.SetWindowSize(width, height);
+            }
+        }
+
+        public float Height
+        {
+            get => height;
+            set
+            {
+                height = (int)value;
+                Raylib.SetWindowSize(width, height);
+            }
+        }
+
+        public string Title
+        {
+            get => title;
+            set
+            {
+                title = value;
+                Raylib.SetWindowTitle(value);
+            }
+        }
+
+        public Color ClearColor { get; set; } = Color.White;
+
+        private string title = title;
+        private int height = height;
+        private int width = width;
+
+        internal bool Open()
+        {
+            Raylib.InitWindow(width, height, title);
+            return Raylib.IsWindowReady();
+        }
+
+        internal void Close()
+        {
+            Raylib.CloseWindow();
+        }
+
+        internal void NewFrame(Camera3D camera)
+        {
+            Raylib.BeginDrawing();
+            Raylib.ClearBackground(ClearColor);
+            Raylib.BeginMode3D(camera);
+        }
+
+        internal void EndFrame()
+        {
+            Raylib.EndMode3D();
+            Raylib.EndDrawing();
+        }
+    }
+}

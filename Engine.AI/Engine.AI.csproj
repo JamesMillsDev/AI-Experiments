@@ -8,8 +8,4 @@
         <Product />
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Engine.Gameplay\Engine.Gameplay.csproj" />
-    </ItemGroup>
-
 </Project>
