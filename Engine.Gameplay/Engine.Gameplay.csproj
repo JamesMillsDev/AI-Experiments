@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Company>James Mills</Company>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Engine.Rendering\Engine.Rendering.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Company>James Mills</Company>
+        <Product />
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Engine.Gameplay\Engine.Gameplay.csproj" />
+    </ItemGroup>
+
+</Project>
