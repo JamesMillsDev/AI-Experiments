@@ -5,6 +5,7 @@ using Engine.Gameplay.Actors;
 using Engine.Gameplay.Components;
 using Engine.Graphics;
 using Raylib_cs;
+using Material = Engine.Graphics.Material;
 
 namespace Game
 {
@@ -20,17 +21,20 @@ namespace Game
         {
             window!.ClearColor = Color.Black;
 
+            Material material = new("lit");
+            material.SetTexture("baseColor", Raylib.LoadTexture("Content/Textures/T_RebarConcrete_BC.png"));
+            material.SetTexture("normalMap", Raylib.LoadTexture("Content/Textures/T_RebarConcrete_N.png"));
+            material.SetTexture("orm", Raylib.LoadTexture("Content/Textures/T_RebarConcrete_ORM.png"));
+
             ActorBuilder builder = new();
             builder
-                .WithComponent(new MeshComponent("Content/Models/shaderBall.fbx", "lit"))
+                .WithComponent(new MeshComponent("Content/Models/shaderBall.fbx", material: material))
                 .WithScale(new Vector3(0.5f));
             shaderBallActor = World.SpawnActor(ref builder);
 
             builder
-                .WithComponent(new LightComponent())
-                .WithComponent(new MeshComponent("Content/Models/SM_Sphere.fbx"))
-                .WithLocation(new Vector3(1.2f, 1.0f, 2.0f))
-                .WithScale(new Vector3(0.1f));
+                .WithComponent(new LightComponent(type: LightType.Point))
+                .WithComponent(new MeshComponent(mesh: Raylib.GenMeshSphere(7.5f, 32, 16)));
             lightActor = World.SpawnActor(ref builder);
         }
 
@@ -42,7 +46,12 @@ namespace Game
         public override void Tick(float dt)
         {
             angle += dt * 90f;
-            shaderBallActor.Transform.rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, Mathf.Radians(angle));
+
+            // Make the light orbit the centre of the world
+            lightActor.Transform.location =
+                Vector3.Transform(
+                    Vector3.UnitZ * 5, Quaternion.CreateFromAxisAngle(Vector3.UnitY, Mathf.Radians(angle))
+                    ) + new Vector3(0.0f, 1.0f, 0.0f);
         }
 
         public override void Shutdown()

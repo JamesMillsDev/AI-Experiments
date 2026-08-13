@@ -11,11 +11,13 @@ namespace Engine.Graphics
         Spot
     }
 
-    public class LightComponent : Component
+    public class LightComponent(LightType type = LightType.Directional, float intensity = 1f, float radius = 1f)
+        : Component
     {
-        public LightType Type { get; set; } = LightType.Directional;
-        public float Intensity { get; set; } = 1f;
+        public LightType Type { get; set; } = type;
+        public float Intensity { get; set; } = intensity;
         public Color Color { get; set; } = Color.White;
+        public float Radius { get; set; } = radius;
 
         public override void BeginPlay()
         {
@@ -34,6 +36,7 @@ namespace Engine.Graphics
             int colorIndex = Raylib.GetShaderLocation(shader, $"lights[{lightIndex}].color");
             int directionIndex = Raylib.GetShaderLocation(shader, $"lights[{lightIndex}].direction");
             int locationIndex = Raylib.GetShaderLocation(shader, $"lights[{lightIndex}].location");
+            int radiusIndex = Raylib.GetShaderLocation(shader, $"lights[{lightIndex}].radius");
 
             if (typeIndex != -1)
             {
@@ -61,6 +64,11 @@ namespace Engine.Graphics
             if (locationIndex != -1)
             {
                 Raylib.SetShaderValue(shader, locationIndex, Owner.Transform.location, ShaderUniformDataType.Vec3);
+            }
+
+            if (radiusIndex != -1)
+            {
+                Raylib.SetShaderValue(shader, radiusIndex, Radius, ShaderUniformDataType.Float);
             }
         }
     }

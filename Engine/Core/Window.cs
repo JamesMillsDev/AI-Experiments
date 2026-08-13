@@ -42,6 +42,7 @@ namespace Engine.Core
 
         internal bool Open()
         {
+            Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
             Raylib.InitWindow(width, height, title);
             return Raylib.IsWindowReady();
         }

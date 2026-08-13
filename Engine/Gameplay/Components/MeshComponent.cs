@@ -7,27 +7,42 @@ using Material = Engine.Graphics.Material;
 
 namespace Engine.Gameplay.Components
 {
-    public class MeshComponent(string meshName, string? shaderName = null, float scaleModifier = .01f) : Component
+    public class MeshComponent(
+        string? meshName = null,
+        string? shaderName = null,
+        float scaleModifier = .01f,
+        Mesh? mesh = null,
+        Material? material = null) : Component
     {
         private readonly List<Model> models = [];
         private readonly List<Material> materials = [];
+        private string? shaderName = shaderName;
 
         public override unsafe void BeginPlay()
         {
-            List<Mesh> meshes = MeshLoader.CreateFromAssimp(meshName);
-            foreach (Mesh mesh in meshes)
+            if (meshName != null)
             {
-                models.Add(Raylib.LoadModelFromMesh(mesh));
+                List<Mesh> meshes = MeshLoader.CreateFromAssimp(meshName);
+                foreach (Mesh m in meshes)
+                {
+                    models.Add(Raylib.LoadModelFromMesh(m));
+                }
+            }
+            else if (mesh != null)
+            {
+                models.Add(Raylib.LoadModelFromMesh(mesh.Value));
             }
 
-            if (shaderName == null)
+            if (shaderName == null && material == null)
             {
                 return;
             }
 
+            shaderName ??= "lit";
+
             for (int i = 0; i < models.Count; i++)
             {
-                materials.Add(new Material(shaderName));
+                materials.Add(material ?? new Material(shaderName));
 
                 models[i].Materials[0].Shader = materials[i].shader;
             }

@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
+      <PackageReference Include="RayGUI-cs" Version="2.0.5" />
       <PackageReference Include="Raylib-cs" Version="8.0.0" />
     </ItemGroup>
 

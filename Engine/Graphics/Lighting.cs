@@ -54,7 +54,7 @@ namespace Engine.Graphics
             if (sceneLightingAmbientIntensityIndex != -1)
             {
                 Raylib.SetShaderValue(
-                    shader, sceneLightingAmbientIntensityIndex, ambientIntensity, ShaderUniformDataType.Int
+                    shader, sceneLightingAmbientIntensityIndex, ambientIntensity, ShaderUniformDataType.Float
                 );
             }
         }

@@ -54,11 +54,11 @@ namespace Engine.Graphics
                     {
                         mesh.AllocTangents();
 
-                        Span<Vector3> tangents = mesh.TangentsAs<Vector3>();
+                        Span<Vector4> tangents = mesh.TangentsAs<Vector4>();
                         for (int i = 0; i < sceneMesh.VertexCount; i++)
                         {
-                            tangents[i] = new Vector3(
-                                sceneMesh.Tangents[i].X, sceneMesh.Tangents[i].Y, sceneMesh.Tangents[i].Z
+                            tangents[i] = new Vector4(
+                                sceneMesh.Tangents[i].X, sceneMesh.Tangents[i].Y, sceneMesh.Tangents[i].Z, 0f
                             );
                         }
                     }

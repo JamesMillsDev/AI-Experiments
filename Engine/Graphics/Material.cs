@@ -22,7 +22,7 @@ namespace Engine.Graphics
         private readonly int roughnessLoc;
         private readonly int viewPosLoc;
 
-        private readonly Dictionary<string, int> textureLocations = [];
+        private readonly Dictionary<string, (int, int)> textureLocations = [];
 
         public Material(string shaderPath)
         {
@@ -38,7 +38,9 @@ namespace Engine.Graphics
         public void SetTexture(string textureName, Texture2D texture)
         {
             textures[textureName] = texture;
-            textureLocations[textureName] = Raylib.GetShaderLocation(shader, "material." + textureName);
+            textureLocations[textureName] =
+                (Raylib.GetShaderLocation(shader, "material." + textureName),
+                Raylib.GetShaderLocation(shader, "material." + textureName + "Set"));
         }
 
         public void RemoveTexture(string textureName)
@@ -55,7 +57,15 @@ namespace Engine.Graphics
         {
             foreach (KeyValuePair<string, Texture2D> texture in textures)
             {
-                Raylib.SetShaderValueTexture(shader, textureLocations[texture.Key], texture.Value);
+                int key = textureLocations[texture.Key].Item1;
+                if (key == -1)
+                {
+                    Raylib.SetShaderValue(shader, textureLocations[texture.Key].Item2, 0, ShaderUniformDataType.Int);
+                    continue;
+                }
+
+                Raylib.SetShaderValueTexture(shader, key, texture.Value);
+                Raylib.SetShaderValue(shader, textureLocations[texture.Key].Item2, 1, ShaderUniformDataType.Int);
             }
 
             TrySetShaderV(
