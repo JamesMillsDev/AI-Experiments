@@ -5,11 +5,26 @@ namespace Engine.Gameplay.Actors
     public class Actor
     {
         public Transform Transform { get; } = new();
+        public World World { get; }
 
         internal readonly List<Component> components = [];
 
-        internal Actor()
+        public T? FindComponent<T>() where T : Component
         {
+            foreach (Component component in components)
+            {
+                if (component is T t)
+                {
+                    return t;
+                }
+            }
+
+            return null;
+        }
+
+        internal Actor(World world)
+        {
+            World = world;
         }
 
         internal void Tick(float dt)

@@ -1,20 +1,25 @@
 ﻿using Engine.Gameplay.Components;
+using Engine.Graphics;
 
 namespace Engine.Gameplay.Actors
 {
     public class World
     {
+        public Lighting Lighting { get; } = new();
+
         private readonly List<Actor> actors = [];
 
-        public Actor SpawnActor(ActorBuilder builder)
+        public Actor SpawnActor(ref ActorBuilder builder)
         {
-            Actor actor = builder.Build();
+            Actor actor = builder.Build(this);
             foreach (Component component in actor.components)
             {
                 component.BeginPlay();
             }
 
             actors.Add(actor);
+            builder.Reset();
+
             return actor;
         }
 

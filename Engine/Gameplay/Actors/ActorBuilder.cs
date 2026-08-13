@@ -6,9 +6,9 @@ namespace Engine.Gameplay.Actors
     public class ActorBuilder
     {
         private readonly List<Component> components = [];
-        private Vector3 initialLocation;
-        private Quaternion initialRotation;
-        private Vector3 initialScale;
+        private Vector3? initialLocation;
+        private Quaternion? initialRotation;
+        private Vector3? initialScale;
         private Transform? initialParent;
 
         public ActorBuilder WithComponent(Component component)
@@ -44,20 +44,36 @@ namespace Engine.Gameplay.Actors
         public void Reset()
         {
             components.Clear();
+            initialLocation = null;
+            initialRotation = null;
+            initialScale = null;
         }
 
-        internal Actor Build()
+        internal Actor Build(World world)
         {
-            Actor actor = new Actor();
+            Actor actor = new(world);
             foreach (Component component in components)
             {
                 component.Owner = actor;
             }
 
             actor.components.AddRange(components);
-            actor.Transform.Location = initialLocation;
-            actor.Transform.Rotation = initialRotation;
-            actor.Transform.Scale = initialScale;
+
+            if (initialLocation.HasValue)
+            {
+                actor.Transform.location = initialLocation.Value;
+            }
+
+            if (initialRotation.HasValue)
+            {
+                actor.Transform.rotation = initialRotation.Value;
+            }
+
+            if (initialScale.HasValue)
+            {
+                actor.Transform.scale = initialScale.Value;
+            }
+
             actor.Transform.Parent = initialParent;
             return actor;
         }

@@ -19,9 +19,11 @@ namespace Engine.Core
             Instance.Run();
         }
 
+        public Camera3D Camera3D => camera;
+
         private Camera3D camera = new(
             new Vector3(0f, 1f, -10f), new Vector3(0f, 1f, -9f),
-            new Vector3(0f, 1f, 0f), 90f, CameraProjection.Perspective
+            new Vector3(0f, 1f, 0f), 45f, CameraProjection.Perspective
         );
 
         private readonly Window window;
@@ -45,7 +47,21 @@ namespace Engine.Core
 
             while (!Raylib.WindowShouldClose())
             {
-                Raylib.UpdateCamera(ref camera, CameraMode.Free);
+                if (Raylib.IsMouseButtonPressed(MouseButton.Right))
+                {
+                    Raylib.HideCursor();
+                    Raylib.DisableCursor();
+                }
+                else if (Raylib.IsMouseButtonReleased(MouseButton.Right))
+                {
+                    Raylib.EnableCursor();
+                    Raylib.ShowCursor();
+                }
+
+                if (Raylib.IsMouseButtonDown(MouseButton.Right))
+                {
+                    Raylib.UpdateCamera(ref camera, CameraMode.Free);
+                }
 
                 gameInstance.Tick(Raylib.GetFrameTime());
                 gameInstance.World.TickActors(Raylib.GetFrameTime());
