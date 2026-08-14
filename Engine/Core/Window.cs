@@ -52,16 +52,14 @@ namespace Engine.Core
             Raylib.CloseWindow();
         }
 
-        internal void NewFrame(Camera3D camera)
+        internal void NewFrame()
         {
             Raylib.BeginDrawing();
             Raylib.ClearBackground(ClearColor);
-            Raylib.BeginMode3D(camera);
         }
 
         internal void EndFrame()
         {
-            Raylib.EndMode3D();
             Raylib.EndDrawing();
         }
     }

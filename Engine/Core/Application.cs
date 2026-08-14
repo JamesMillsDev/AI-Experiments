@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Engine.Debugging;
 using Engine.Gameplay;
 using Raylib_cs;
 
@@ -63,13 +64,22 @@ namespace Engine.Core
                     Raylib.UpdateCamera(ref camera, CameraMode.Free);
                 }
 
+                if (Raylib.IsKeyPressed(KeyboardKey.F3))
+                {
+                    Debug.Enabled = !Debug.Enabled;
+                }
+
                 gameInstance.Tick(Raylib.GetFrameTime());
                 gameInstance.World.TickActors(Raylib.GetFrameTime());
 
-                window.NewFrame(camera);
+                window.NewFrame();
 
+                Debug.RenderEditors();
+
+                Raylib.BeginMode3D(camera);
                 gameInstance.Render();
                 gameInstance.World.RenderActors();
+                Raylib.EndMode3D();
 
                 window.EndFrame();
             }

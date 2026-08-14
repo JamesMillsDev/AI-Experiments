@@ -1,4 +1,6 @@
 ﻿using System.Numerics;
+using Engine.Debugging;
+using Engine.Debugging.Editors;
 using Engine.Gameplay.Components;
 using Raylib_cs;
 
@@ -19,13 +21,19 @@ namespace Engine.Graphics
         public Color Color { get; set; } = Color.White;
         public float Radius { get; set; } = radius;
 
+        private LightComponentEditor? editor;
+
         public override void BeginPlay()
         {
+            editor = new LightComponentEditor(this);
+            Debug.RegisterEditor(editor);
+
             Owner.World.Lighting.AddLight(this);
         }
 
         public override void EndPlay()
         {
+            Debug.UnregisterEditor(editor!);
             Owner.World.Lighting.RemoveLight(this);
         }
 
